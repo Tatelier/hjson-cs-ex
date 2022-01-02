@@ -15,6 +15,6 @@ namespace HjsonEx
 		/// <summary>
 		/// オブジェクト
 		/// </summary>
-		public static Hjson.JsonValue Value { get; } = Array;
+		public static Hjson.JsonValue Value { get; } = new JsonObject();
 	}
 }
