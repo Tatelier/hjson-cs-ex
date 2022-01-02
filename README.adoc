@@ -1,3 +1,46 @@
 # hjson-cs-ex
 
 hjson extensions.
+
+## はじめに
+Tatelierでは、各設定ファイルでhjsonを使用しています。 +
+NuGetからhjsonのライブラリを利用することができますが、そのまま利用すると大変だったため、自作で拡張メソッドを用意しました。 +
+
+追加した拡張メソッドの特徴は以下になります。
+* 要素が見つからなかった際にnullを返す (オリジナルでは例外を返すケースが多い)
+* 値を取得する際、「.」を入れればその子供の要素を取得できる
+
+## 使い方
+
+
+[サンプル, cs]
+----
+/*
+// hoge.hjsonの中身
+{
+  title: "あいうえお",
+  offset: 100,
+  courses: {
+    // hard: 1.0
+    oni: 9.5
+  }
+}
+
+*/
+
+using Hjson; // オリジナルのhjsonもusingしておくこと
+using HjsonEx;
+
+public static void Main(string[] args)
+{
+  // オリジナルのLoadでは、ファイルがないとき例外となるが、LoadExではnullが返る。
+  var hjson = new HjsonEx.LoadEx("hoge.hjson") ?? HjsonEx.Empty.Value;
+
+  string title = hjson.EQs("title") ?? "タイトルなし"; // titleがhoge.hjsonに定義されているため、「あいうえお」が代入される
+
+  int offset = hjson.EQi("offset") ?? int.MinValue; // offsetが定義されているため、100が代入される
+
+  float level = hjson.EQf("courses.hard") ?? -1; // courses.hardがない(コメントアウトされている)ため、-1が代入される。
+}
+
+----
