@@ -47,12 +47,16 @@ namespace HjsonEx
 
 						if (str.IndexOf('\n') != -1)
 						{
+							sb.AppendLine();
+							sb.Append(new string('\t', tabCount));
 							sb.AppendLine("'''");
 							foreach (var s in str.Split('\n'))
 							{
 								sb.Append(new string('\t', tabCount));
 								sb.Append($"{s}");
+								sb.Append($"\n");
 							}
+							sb.Append(new string('\t', tabCount));
 							sb.Append("''',");
 						}
 						else
